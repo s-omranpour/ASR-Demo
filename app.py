@@ -29,7 +29,7 @@ def main():
 
     if st.button('Transcribe'):
         with st.spinner("Transcribing the voice"):
-            text = 'salam'#send(WAVE_OUTPUT_FILE)
+            text = send(WAVE_OUTPUT_FILE)
         st.write("Text:", text)
         st.write("\n")
 
