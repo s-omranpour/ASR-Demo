@@ -1,14 +1,8 @@
 import numpy as np
-import sounddevice as sd
-from scipy.io.wavfile import write
+import requests
 import librosa, librosa.display
+import streamlit as st
 import matplotlib.pyplot as plt
-
-def record(duration, path):
-    rec = sd.rec(int(duration * 16000), samplerate=16000, channels=1)
-    sd.wait()
-    print(rec.shape, np.sum(rec))
-    write(path, 16000, rec.astype(np.int16))
 
 def send(wav_file):
     url = "http://localhost:8090/speech/predict"
@@ -22,7 +16,7 @@ def display_waveplot(wav_file):
     librosa.display.waveplot(y,x_axis='time')
     plt.title('Voice wave plot')
     plt.tight_layout()
-    st.pyplot(fig, clear_figure=False)
+    st.pyplot(fig, clear_figure=True)
     
 
 def display_spectrogram(wav_file):

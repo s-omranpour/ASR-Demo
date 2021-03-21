@@ -3,35 +3,35 @@ import numpy as np
 import librosa, librosa.display
 import matplotlib.pyplot as plt
 
-from utils import display_spectrogram, display_waveplot, record, send
+from utils import display_spectrogram, display_waveplot, send
+from record import Recorder
 
-WAVE_OUTPUT_FILE = "data/recorded.wav"
+WAVE_OUTPUT_FILE = "data/rec.wav"
 
 def main():
     st.title("ZLab ASR Demo")
-    DURATION = st.slider('Duration', min_value=1, max_value=10)
-    st.write('Press the record button and speak for', DURATION, 'seconds.\n Then press "transcribe" button to display the spoken text and its spectrogram plot!')
+    duration = st.slider('Duration', min_value=1, max_value=10)
+    st.write('Press the record button and speak for', duration, 'seconds.\n Then press "transcribe" button to display the spoken text and its spectrogram plot!')
     
+    recorder = Recorder(path=WAVE_OUTPUT_FILE)
     if st.button('Record'):
-        with st.spinner(f'Recording for {DURATION} seconds ....'):
-            record(DURATION, WAVE_OUTPUT_FILE)
-        st.success("Recording completed")
+        with st.spinner(f'Recording for {duration} seconds ....'):
+            recorder.record_n_save(duration)
+        # st.success("Recording completed")
 
-    if st.button('Play'):
         try:
             audio_file = open(WAVE_OUTPUT_FILE, 'rb')
             audio_bytes = audio_file.read()
             st.audio(audio_bytes, format='audio/wav')
             display_waveplot(WAVE_OUTPUT_FILE)
             # display_spectrogram(WAVE_OUTPUT_FILE)
-        except:
-            st.write("Please record sound first")
+        except Exception as e:
+            st.write('Error:', e)
 
-    if st.button('Transcribe'):
+    # if st.button('Transcribe'):
         with st.spinner("Transcribing the voice"):
             text = send(WAVE_OUTPUT_FILE)
-        st.write("Text:", text)
-        st.write("\n")
+        st.write('Text: *' + text + '*')
 
         
 
