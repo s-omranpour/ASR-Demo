@@ -30,8 +30,9 @@ def main():
 
     # if st.button('Transcribe'):
         with st.spinner("Transcribing the voice"):
-            text = send(WAVE_OUTPUT_FILE)
-        st.write('Text: *' + text + '*')
+            res = send(WAVE_OUTPUT_FILE)
+        st.write('greedy: ' + res['greedy'])
+        st.write('beam:   ' + res['beam'])
 
         
 

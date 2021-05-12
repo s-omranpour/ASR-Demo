@@ -3,9 +3,10 @@ import requests
 import librosa, librosa.display
 import streamlit as st
 import matplotlib.pyplot as plt
+import json
 
 def send(wav_file):
-    url = "http://localhost:8090/speech/predict"
+    url = "http://localhost:8085/speech/predict"
     rec, _ = librosa.load(wav_file, sr=16000)
     resp = requests.post(url, files={"file": rec.tobytes()})
     return json.loads(resp.text)
