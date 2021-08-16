@@ -5,11 +5,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import json
 
-def send(wav_file):
+def send(wav_file, password = None):
     url = "http://asr.fanaplab.com:5000/transcribe"
     rec, _ = librosa.load(wav_file, sr=16000)
     files = {"file" : rec.tobytes()}
-    resp = requests.post(url, files=files)
+    resp = requests.post(url, files=files, params={'password': password})
     return json.loads(resp.text)
 
 def display_waveplot(wav_file):

@@ -11,6 +11,8 @@ WAVE_OUTPUT_FILE = "data/rec.wav"
 
 def main():
     st.title("ZLab ASR Demo")
+    password = st.text_input("Enter password:", "")
+
     duration = st.slider('Duration', min_value=1, max_value=10)
     st.write('Press the record button and speak for', duration, 'seconds.\n Then press "transcribe" button to display the spoken text and its spectrogram plot!')
     
@@ -29,7 +31,7 @@ def main():
             st.write('Error:', e)
 
         with st.spinner("Transcribing the voice"):
-            res = send(WAVE_OUTPUT_FILE)
+            res = send(WAVE_OUTPUT_FILE, password)
         st.write('Text:\n' + res)
 
         
