@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 import json
 
 def send(wav_file):
-    url = "http://localhost:8085/speech/predict"
+    url = "http://asr.fanaplab.com:5000/transcribe"
     rec, _ = librosa.load(wav_file, sr=16000)
-    resp = requests.post(url, files={"file": rec.tobytes()})
+    files = {"file" : rec.tobytes()}
+    resp = requests.post(url, files=files)
     return json.loads(resp.text)
 
 def display_waveplot(wav_file):
